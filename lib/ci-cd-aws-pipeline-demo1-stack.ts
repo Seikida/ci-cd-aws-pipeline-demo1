@@ -3,7 +3,7 @@ import { Construct } from 'constructs';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { CodePipeline, CodePipelineSource, ShellStep, Step } from 'aws-cdk-lib/pipelines';
 import { ManualApprovalStep } from 'aws-cdk-lib/pipelines';
-// import { MyPipelineAppStage } from './stage';
+import { MyPipelineAppStage } from './stage';
 
 export class CiCdAwsPipelineDemo1Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -27,6 +27,27 @@ export class CiCdAwsPipelineDemo1Stack extends cdk.Stack {
         ]
       })
     });
+
+
+
+
+    const testingStage = pipeline.addStage(new MyPipelineAppStage(this, "test", {
+      env: { account: "723033854254", region: "ap-northeast-1" }
+    }));
     
+    testingStage.addPre(new ShellStep("Run Unit Tests", { 
+      commands: [
+        'npm install', 
+        'npm test'] 
+      })
+    );
+
+
+
+    const prodStage = pipeline.addStage(new MyPipelineAppStage(this, "prod", {
+      env: { account: "723033854254", region: "ap-northeast-1" }
+    }));
+
+
   }
 }
