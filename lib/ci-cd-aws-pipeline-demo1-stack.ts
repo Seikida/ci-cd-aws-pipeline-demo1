@@ -17,7 +17,7 @@ export class CiCdAwsPipelineDemo1Stack extends cdk.Stack {
     // });
 
     const pipeline = new CodePipeline(this, 'Pipeline', {
-      pipelineName: 'TestPipeline',
+      pipelineName: 'TestPipeline1',
       synth: new ShellStep('Synth', {
         input: CodePipelineSource.gitHub('Seikida/ci-cd-aws-pipeline-demo1', 'main'), //Remember to change 
         commands: [
